@@ -43,7 +43,7 @@ int main()
 		std::cout << table[i].k << "\t" << table[i].R << std::endl;
 	}
 
-	std::cout << "Enter key: ";
+	std::cout << "\nEnter key: ";
 	std::cin >> k;
 
 	i = 0;
@@ -62,6 +62,7 @@ int main()
 	if (!success)
 		std::cout << std::endl << "S: We were unable to find a matching key. It took us " << count << " comparisons." << std::endl;
 
+	std::cout << std::endl;
 	table[N].k = k;
 	count = 0;
 	i = 0;
@@ -125,10 +126,12 @@ int main()
 	if (!success)
 	 std::cout << "T: We were unable to find a matching key. It took us " << count << " comparisons." << std::endl;
 
+	std::cout << std::endl;
 	i = 0;
 	i_first = 0;
 	i_last = N - 1;
 	count = 1;
+	success = false;
 
 	while (i_first < i_last)
 	{
@@ -141,7 +144,8 @@ int main()
 			count++;
 			if (k == table[i].k)
 			{
-				std::cout << "B: " << count << "\t" << table[i].R << std::endl;
+				number = i;
+				success = true;
 				break;
 			}
 			else i_first = i + 1;
@@ -149,8 +153,19 @@ int main()
 	}
 
 	count++;
-	if (i_first >= i_last)
+	if (!success)
 		std::cout << "B: We were unable to find a matching key. It took us " << count << " comparisons." << std::endl;
+	else
+	{
+		i = 0;
+		count++;
+		while ((table[number + i].k == k) || (table[number - i].k == k))
+		{
+			std::cout << "B: " << count << "\t" << table[i].R << std::endl;
+			i++;
+			count++;
+		}
+	}
 
 	system("pause");
     return 0;
