@@ -39,7 +39,7 @@ int main()
 	for (i = 0; i < N; i++)
 	{
 		table[i].R = i+66;
-		table[i].k = pow((-1),i);
+		table[i].k = pow((-2),i);
 		std::cout << table[i].k << "\t" << table[i].R << std::endl;
 	}
 
@@ -133,11 +133,11 @@ int main()
 	count = 1;
 	success = false;
 
-	while (i_first < i_last)
+	while (i_first <= i_last)
 	{
 		i = (i_first + i_last) / 2;
 		count++;
-		if (table[i].k > k)
+		if (table[i].k < k)
 			i_last = i - 1;
 		else
 		{
@@ -157,13 +157,17 @@ int main()
 		std::cout << "B: We were unable to find a matching key. It took us " << count << " comparisons." << std::endl;
 	else
 	{
-		i = 0;
-		count++;
+		i = 1;
+		count = count + 4;
+		std::cout << "B: " << count << "\t" << table[number].R << std::endl;
 		while ((table[number + i].k == k) || (table[number - i].k == k))
 		{
-			std::cout << "B: " << count << "\t" << table[i].R << std::endl;
+			if (table[number + i].k == k)
+				std::cout << "B: " << count << "\t" << table[number + i].R << std::endl;
+			if (table[number - i].k == k)
+				std::cout << "B: " << count << "\t" << table[number - i].R << std::endl;
 			i++;
-			count++;
+			count = count + 4;
 		}
 	}
 
