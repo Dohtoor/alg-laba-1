@@ -25,7 +25,7 @@ void swap(TABLE &one, TABLE &two)
 
 int main()
 {
-	const int N = 18;
+	const int N = 15;
 	int i;
 	int number;
 	int count = 1;
@@ -39,7 +39,7 @@ int main()
 	for (i = 0; i < N; i++)
 	{
 		table[i].R = i+66;
-		table[i].k = i + pow((-1),i) * 19 * 3;
+		table[i].k = pow((-1),i);
 		std::cout << table[i].k << "\t" << table[i].R << std::endl;
 	}
 
@@ -48,41 +48,48 @@ int main()
 
 	i = 0;
 
-	while (table[i].k != k)
+	for (i = 0; i < N; i++)
 	{
 		count++;
-		i++;
-		if (i == N)
-			break;
+		if (table[i].k == k)
+		{
+			std::cout << "S: " << count << "\t" << table[i].R << std::endl;
+			success = true;
+		}
 		count++;
 	}
 
-	if (i < N)
-	{
-		std::cout << std::endl << "S: " << count << "\t" << table[i].R << std::endl;
-	}
-	else std::cout << std::endl << "S: We were unable to find a matching key. It took us " << count << " comparisons." << std::endl;
+	if (!success)
+		std::cout << std::endl << "S: We were unable to find a matching key. It took us " << count << " comparisons." << std::endl;
 
-	table[N+1].k = k;
-	count = 1;
+	table[N].k = k;
+	count = 0;
 	i = 0;
+	success = false;
 
-	while (table[i].k != k)
+	while (true)
 	{
-		i++;
 		count++;
+		if (table[i].k == k)
+		{
+			if (i != N)
+			{
+				std::cout << "Q: " << count << "\t" << table[i].R << std::endl;
+				success = true;
+			}
+			else break;
+		}
+		i++;
 	}
 
 	count++;
-
-	if (i < N)
-		std::cout << "Q: " << count << "\t" << table[i].R << std::endl;
-	else std::cout << "Q: We were unable to find a matching key. It took us " << count << " comparisons." << std::endl;
+	if (!success)
+		std::cout << "Q: We were unable to find a matching key. It took us " << count << " comparisons." << std::endl;
 
 	for (i = 0; i < N - 1; i++)
 		for (int n = i + 1; n < N; n++)
 		{
-			if (table[i].k > table[n].k)
+			if (table[i].k < table[n].k)
 				swap(table[i], table[n]);
 		}
 
@@ -95,18 +102,28 @@ int main()
 
 	i = 0;
 	count = 1;
+	success = false;
+	table[N].k = INT_MAX;
+
+	std::cout << std::endl;
 	
-	while (k > table[i].k)
+	while (k < table[i].k)
 	{
 		count++;
 		i++;
 	}
 
 	count++;
+	while (k == table[i].k)
+	{
+		std::cout << "T: " << count << "\t" << table[i].R << std::endl;
+		success = true;
+		i++;
+		count++;
+	}
 
-	if (k == table[i].k)
-		std::cout << std::endl << "T: " << count << "\t" << table[i].R << std::endl;
-	else std::cout << std::endl << "T: We were unable to find a matching key. It took us " << count << " comparisons." << std::endl;
+	if (!success)
+	 std::cout << "T: We were unable to find a matching key. It took us " << count << " comparisons." << std::endl;
 
 	i = 0;
 	i_first = 0;
